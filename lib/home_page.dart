@@ -88,13 +88,9 @@ class PasswordResetMailSender {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailTextController.text);
-      messenger.showMessage(
-        'Email sent.',
-      );
+      messenger.showMessage('Email sent.');
     } on FirebaseAuthException catch (e) {
-      messenger.showError(
-        'Failed: ${e.code}',
-      );
+      messenger.showError('Failed: ${e.code}');
     }
   }
 }

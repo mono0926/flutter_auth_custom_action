@@ -1,4 +1,3 @@
-import 'package:example/auth_action/password_reset/password_reset_page.dart';
 import 'package:example/home_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,23 +35,7 @@ final routerProvider = Provider(
           path: '/',
           builder: (_, __) => const HomePage(),
           routes: [
-            GoRoute(
-              path: 'action',
-              builder: (_, state) {
-                final mode = AuthActionMode.values.byNameOrNull(
-                  state.queryParams['mode'],
-                );
-                if (mode == null) {
-                  return const NoActionPage();
-                }
-                switch (mode) {
-                  case AuthActionMode.resetPassword:
-                    return PasswordResetPage(
-                      oobCode: state.queryParams['oobCode']!,
-                    );
-                }
-              },
-            ),
+            authActionRoute,
           ],
         ),
       ],

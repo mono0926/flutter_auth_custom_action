@@ -64,13 +64,9 @@ class ResetPasswordNotifier {
         code: oobCode,
         newPassword: passwordTextController.text,
       );
-      messenger.showMessage(
-        'Password updated',
-      );
+      messenger.showMessage('Password updated');
     } on FirebaseAuthException catch (e) {
-      messenger.showError(
-        'Failed: ${e.code}',
-      );
+      messenger.showError('Failed: ${e.code}');
     }
   }
 }
