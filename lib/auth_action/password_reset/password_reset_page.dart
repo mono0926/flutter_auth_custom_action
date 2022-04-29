@@ -46,7 +46,7 @@ class PasswordResetPage extends ConsumerWidget {
   }
 }
 
-final resetPasswordProvider = Provider(
+final resetPasswordProvider = Provider.autoDispose(
   (ref) => ResetPasswordNotifier(ref.read),
 );
 
