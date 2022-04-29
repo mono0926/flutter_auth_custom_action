@@ -13,7 +13,7 @@ class PasswordResetPage extends ConsumerWidget {
   final String oobCode;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.watch(resetPasswordProvider);
+    final controller = ref.watch(resetPasswordController);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reset Password'),
@@ -22,7 +22,7 @@ class PasswordResetPage extends ConsumerWidget {
         children: [
           TilePadding(
             child: TextField(
-              controller: notifier.passwordTextController,
+              controller: controller.passwordTextController,
               obscureText: true,
               autofocus: true,
               autofillHints: const [AutofillHints.newPassword],
@@ -34,7 +34,7 @@ class PasswordResetPage extends ConsumerWidget {
           const Gap(8),
           TilePadding(
             child: ElevatedButton(
-              onPressed: () => notifier.resetPassword(
+              onPressed: () => controller.resetPassword(
                 oobCode: oobCode,
               ),
               child: const Text('Update Password'),
@@ -46,12 +46,12 @@ class PasswordResetPage extends ConsumerWidget {
   }
 }
 
-final resetPasswordProvider = Provider.autoDispose(
-  (ref) => ResetPasswordNotifier(ref.read),
+final resetPasswordController = Provider.autoDispose(
+  (ref) => ResetPasswordController(ref.read),
 );
 
-class ResetPasswordNotifier {
-  ResetPasswordNotifier(this._read);
+class ResetPasswordController {
+  ResetPasswordController(this._read);
   final Reader _read;
   final passwordTextController = TextEditingController();
 
