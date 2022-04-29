@@ -17,7 +17,7 @@ final authActionRoute = GoRoute(
     switch (mode) {
       case AuthActionMode.resetPassword:
         return PasswordResetPage(
-          oobCode: state.queryParams['oobCode']!,
+          oobCode: state.queryParams['oobCode'] ?? '',
         );
     }
   },
