@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "mono-firebase"
+  },
+  "targets": {
+    "mono-firebase": {
+      "hosting": {
+        "auth-action": [
+          "auth-action"
+        ]
+      }
+    }
+  }
+}
