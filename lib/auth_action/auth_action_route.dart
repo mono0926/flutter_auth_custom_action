@@ -49,7 +49,7 @@ class AuthActionRoute extends GoRouteData {
 }
 
 class NoActionPage extends ConsumerWidget {
-  const NoActionPage({Key? key}) : super(key: key);
+  const NoActionPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

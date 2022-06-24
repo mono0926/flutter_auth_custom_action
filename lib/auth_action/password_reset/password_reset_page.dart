@@ -7,9 +7,9 @@ import 'package:mono_kit/mono_kit.dart';
 
 class PasswordResetPage extends ConsumerWidget {
   const PasswordResetPage({
-    Key? key,
+    super.key,
     required this.oobCode,
-  }) : super(key: key);
+  });
   final String oobCode;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
