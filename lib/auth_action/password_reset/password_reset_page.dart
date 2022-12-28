@@ -14,6 +14,7 @@ class PasswordResetPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(resetPasswordController);
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reset Password'),
@@ -36,6 +37,7 @@ class PasswordResetPage extends ConsumerWidget {
             child: ElevatedButton(
               onPressed: () => controller.resetPassword(
                 oobCode: oobCode,
+                theme: theme,
               ),
               child: const Text('Update Password'),
             ),
@@ -47,18 +49,19 @@ class PasswordResetPage extends ConsumerWidget {
 }
 
 final resetPasswordController = Provider.autoDispose(
-  (ref) => ResetPasswordController(ref.read),
+  ResetPasswordController.new,
 );
 
 class ResetPasswordController {
-  ResetPasswordController(this._read);
-  final Reader _read;
+  ResetPasswordController(this._ref);
+  final Ref _ref;
   final passwordTextController = TextEditingController();
 
   Future<void> resetPassword({
     required String oobCode,
+    required ThemeData theme,
   }) async {
-    final messenger = ScaffoldMessenger.of(_read(routerProvider).context);
+    final messenger = ScaffoldMessenger.of(_ref.read(routerProvider).context);
     try {
       await FirebaseAuth.instance.confirmPasswordReset(
         code: oobCode,
@@ -66,7 +69,7 @@ class ResetPasswordController {
       );
       messenger.showMessage('Password updated');
     } on FirebaseAuthException catch (e) {
-      messenger.showError('Failed: ${e.code}');
+      messenger.showError('Failed: ${e.code}', theme: theme);
     }
   }
 }

@@ -23,7 +23,7 @@ part 'router.g.dart';
 class HomeRoute extends GoRouteData {
   const HomeRoute();
   @override
-  Widget build(BuildContext context) => const HomePage();
+  Widget build(BuildContext context, GoRouterState state) => const HomePage();
 }
 
 final routerProvider = Provider(
@@ -31,24 +31,25 @@ final routerProvider = Provider(
     return GoRouter(
       // routes: $appRoutes,
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (_, __) => const HomePage(),
+        ShellRoute(
+          builder: goRouteLocationButtonNavigationBuilder,
           routes: [
-            authActionRoute,
+            GoRoute(
+              path: '/',
+              builder: (_, __) => const HomePage(),
+              routes: [
+                authActionRoute,
+              ],
+            )
           ],
         ),
       ],
       debugLogDiagnostics: kDebugMode,
-      navigatorBuilder: (_, __, child) => GoRouterLocationButton(
-        // ignore: avoid_redundant_argument_values
-        visible: kDebugMode,
-        child: child,
-      ),
     );
   },
 );
 
 extension GoRouterX on GoRouter {
-  BuildContext get context => navigator!.context;
+  NavigatorState get navigator => routerDelegate.navigatorKey.currentState!;
+  BuildContext get context => navigator.context;
 }

@@ -15,6 +15,7 @@ class HomePage extends ConsumerWidget {
     final passwordResetMailSender = ref.watch(passwordResetMailSenderProvider);
     final oob = ref.watch(oobProvider);
     final resetLocation = '/action?mode=resetPassword&oobCode=$oob';
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
@@ -32,7 +33,7 @@ class HomePage extends ConsumerWidget {
           const Gap(8),
           TilePadding(
             child: ElevatedButton(
-              onPressed: passwordResetMailSender.send,
+              onPressed: () => passwordResetMailSender.send(theme: theme),
               child: const Text('Send Password Reset Email'),
             ),
           ),
@@ -74,23 +75,23 @@ class HomePage extends ConsumerWidget {
 }
 
 final passwordResetMailSenderProvider = Provider(
-  (ref) => PasswordResetMailSender(ref.read),
+  PasswordResetMailSender.new,
 );
 
 class PasswordResetMailSender {
-  PasswordResetMailSender(this._read);
-  final Reader _read;
+  PasswordResetMailSender(this._ref);
+  final Ref _ref;
   final emailTextController =
       TextEditingController(text: 'mono0926@example.com');
 
-  Future<void> send() async {
-    final messenger = ScaffoldMessenger.of(_read(routerProvider).context);
+  Future<void> send({required ThemeData theme}) async {
+    final messenger = ScaffoldMessenger.of(_ref.read(routerProvider).context);
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailTextController.text);
       messenger.showMessage('Email sent.');
     } on FirebaseAuthException catch (e) {
-      messenger.showError('Failed: ${e.code}');
+      messenger.showError('Failed: ${e.code}', theme: theme);
     }
   }
 }

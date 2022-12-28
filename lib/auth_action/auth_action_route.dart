@@ -34,7 +34,7 @@ class AuthActionRoute extends GoRouteData {
   final String? oobCode;
   final String? apiKey;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, GoRouterState state) {
     final mode = this.mode;
     if (mode == null) {
       return const NoActionPage();
